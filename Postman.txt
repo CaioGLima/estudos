@@ -65,7 +65,7 @@ PRÉ-REQUISIÇÕES-> são blocos de códigos JavaScrit que são executados antes
 EXEMPLO:
 
 Na aba "Pre-request Script" de uma requisição:
-JavaScript
+	JavaScript
 // Simula a obtenção de um token (na prática, seria uma requisição real)
 	const novoToken = "token_gerado_" + Date.now();
 	pm.environment.set("token_acesso", novoToken); // Salva o token em uma variável de ambiente
@@ -82,13 +82,14 @@ Headers:
 *Content-Type: application/json (diz ao servidor que você está enviando JSON)
 *Authorization: Bearer seu_token_aqui (para autenticação)
 Body (escolha "raw" e "JSON"):
-JSON
 
+	JSON
 {
     "nome": "Caderno Universitário",
     "quantidade": 5,
     "preco": 19.99
 }
+
 Requisição GET para buscar itens filtrados:
 URL Base: https://api.exemplo.com/itens
 Params (na aba "Params"):
@@ -96,6 +97,31 @@ Params (na aba "Params"):
 *limit: 10
 URL final gerada pelo Postman: https://api.exemplo.com/itens?categoria=papelaria&limit=10
 
-AUTENTICAÇÃO->
+AUTENTICAÇÃO-> é um processo de verificação de identidade de um usuário ou sistema ao acesso de um recurso protegido. No caso de APIs, é como o usuário prova ao servidor que tem permissão para fazer uma determinada requisição. 
+TIPOS->
+	NO AUTH -> Nenhuma autenticação
+	BASIC AUTH -> Nome de usuário e senha codificados em Base64
+	BEARER TOKEN -> Um token que é enviado no cabeçalho "AUTHORIZATION" com prefixo "Bearer"
+	API KEY -> Uma chave secreta enviada como cabeçalho ou parâmetro de consulta
+	OAUTH 2.0 -> Um framework complexo para delegação de autorização
 
-COLLECTION RUNNER->
+COLLECTION RUNNER-> é uma ferramenta que permite a execução de todas ou um subconjunto de requisições dentro de uma coleção em uma sequência definida. Usada idealmente para teste de "Regressão" , "Fluxo de trabalho" ou monitoramento da saúde da API. É executado ao clicar no botão "RUN" em uma coleção ou no menu "Runner" no postman
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+API (Application Programming Interface)
+-> é um conjunto de regras e definições que permitem que diferentes softwares se comuniquem entre si. Ela funciona como um "garçom" que leva um pedido(requisição) para a cozinha( servidor) e traz de volta o pedido (resposta). A API é o que define os métodos que os apps podem usar para solicitar e trocar informações.
+Poder ser usado em "Integrações entre sistemas" , "Desenvolvimento de aplicativos" , "Automações", "Microserviços" , "Terceirizações de funcionalidades"
+obs: Existem diferentes tipos e estilos de APIs, cada uma com suas características e uso preferenciais, tudo se baseando na utilidade.
+	Exemplos:
+Por Política de Uso
+APIs Públicas -> Disponíveis para qualquer um usar, geralmente com documentação pública
+APIs de Parceiros -> Compartilhadas apenas com parceiros de negócios específicos. Requerem autenticação e autorização para acesso
+APIs Privadas( -> Desenvolvidas para uso exclusivo dentro de uma organização, para conectar sistemas internos ou otimizar processos.
+
+Por Estilo Arquitetural
+REST(Representational State Transfer) -> O estilo mais comum e popular atualmente. Usa os métodos HTTP(GET,POST, PUT, DELETE) para interagir com os dados através de URLs. Sem estado( cada requisição contém as informações necessárias) e geralmente usa JSON para troca de dados
+SOAP(Simple Object Access Protocol) -> Um protocolo mais antigo e formal, baseado em XML. É mais complexo, com contratos rígidos e geralmente usado em ambientes corporativos que exigem alta segurança e transações robustas.
+RPC(Remote Procedure Call) ->Permite que um programa execute um procedimento em outro espaço de endereço como se fosse um procedimento local (parecido com uma VPN)
+
+
+código de status: Respostas que o servidor pode retornar (ex: 200 OK, 404 Not Found, 500 Internal Server Error).
