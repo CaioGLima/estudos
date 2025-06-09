@@ -1,0 +1,116 @@
+Conhecimentos sobre SQL 
+Comandos:
+
+SELECT -> ele seleciona as informações de uma tabela
+FROM -> ele seleciona da onde as informações vão vir
+
+Exemplo: SELECT info1, info2 FROM tabela
+Obs: o "*" pode ser usado para selecionar todas as informações de uma tabela
+
+DISTINCT -> usado depois do SELECT, ele é usado para evitar duplicação de informações
+Exemplo: SELECT DISTINCT info1 FROM tabela
+
+WHERE -> ele é usado para impor uma condição na pesquisa
+Exemplo: SELECT * FROM tabela WHERE info1 = ''
+Obs:  as condições sempre acompanham um Operador " =. >, <, >=, <=, <>, AND, OR "
+Obs2: sempre que usar uma condição definir o que você esta condicionando
+
+COUNT -> ele vai fazer a contagem de "informações" em uma tabela ou conjunto.
+Exemplo: SELECT count(name) FROM tabela
+
+TOP-> ele vai agir como um limitador de dados
+Exemplo: SELECT TOP 10 * FROM tabela
+
+ORDER BY-> ele vai agir como "organizador", listando os dados por uma seguinte ordem
+Obs: as condições usadas são "asc/desc" ascendente ou decrescente
+Obs2: funciona também para letras, em ordem alfabética
+Exemplo: SELECT id FROM tabela ORDER BY id asc 
+
+BETWEEN ->ele é usado para encontrar algum valor entre um valor mínimo e o máximo
+Exemplo: SELECT * FROM tabela WHERE listprice BETWEEN 1000 AND 1300
+Obs: ele pode ser usado para datas, letras e outros dados, desde que sejam sinalizados de forma correta
+obs2: você pode alterar o sentido, se mudar a sintaxe. Caso escreva "NOT BETWEEN" ao invés de listas apenas o que esta dentro dos valores, ele listará os que estão fora dele.
+
+IN-> ele é usado para verificar se o valor corresponde a algum valor listado
+obs: ele é usado juntamente do WHERE
+obs2: NOT pode ser usado também para mudar o sentido
+Exemplo: SELECT * FROM tabela WHERE id IN (1,5,8,9)
+
+LIKE-> ele é usado para procurar valores que correspondem a um certo padrão, sem ser um valor exato
+Exemplo: SELECT * FROM tabela WHERE name LIKE 'ca%'
+obs: ele muda dependendo da sintaxe.
+A "%" diz a onde o valor continua 
+	EX: "c%" essa começa com C /ou 
+	"%c%" essa a palavra possui C.
+O '_' corresponde a um valor antes ou depois, indicando uma coordenada para o valor 
+	EX: "C_IO" essa vai procurar valores que se encaixam ali como "CaIO" 
+	/ou "_a%" aqui ele vai procurar um valor que a segunda letra seja A. 
+
+MIN, MAX, SUM, AVG-> eles possuem uma função de agregação ou combinação de dados em uma tabela em 1 resultado só
+EXEMPLO: SELECT prices, SUM (UnitPrice) FROM tabela
+
+AS -> ele permite dar um apelido para uma tabela
+EXEMPLO: SELECT product.name.gigante AS "name" FROM tabela
+
+GROUP BY-> ele divide o resultado da pesquisa em grupos
+EXEMPLO: SELECT SpecialOfferID, SUM (UnitPrice) FROM tabela GROUP BY SpecialOfferID
+obs: ele faz o agrupamento pelo nome da tabela
+
+HAVING-> ele é usado juntamente com o GROUP BY para filtrar resultados de um agrupamento
+OBS: ele é tipo um where para dados agrupados
+OBS2: não da para usar o where depois ou o having antes, por questão de sintaxe. Dá para usa-los juntos, tudo depende da questão necessária
+EXEMPLO: SELECT coluna1, SUM (coluna2) FROM tabela GROUP BY coluna1 HAVING condição
+
+INNER JOIN-> ele compara as linhas da tabela A com as linhas da tabela B para encontrar os pares que satisfação uma condição de junção. Ele retorna apenas os resultados correspondentes (existentes) em ambas as tabelas
+EXEMPLO: SELECT * FROM TabelaA INNER JOIN TabelaB ON TabelaA.nome = TabelaB.nome 
+
+obs: ele compara e uni apenas linhas que são iguais e as diferentes são descartadas
+obs2: caso queira unir linhas diferentes, é necessário usar Left Join ou Right Join
+obs3: LEFT OUTER JOIN é abreviado em LEFT JOIN
+
+FULL OUTER JOIN-> retorna todos os conjutos correspondentes de ambas as tabelas. Caso não haja valores correspondentes, ele preenche o lado com NULL 
+EXEMPLO: SELECT * FROM TabelaA FULL OUTER JOIN TabelaB ON TabelaA.nome = TabelaB.nome  
+rollback sql
+ LEFT JOIN-> ele retorna todas as linhas da tabela A e também as linhas que não possuem correspondentes ou valores null, todas são retornadas na tabela de consulta. Ele retorna um conjunto de dados da TabelaA e correspondentes(quando houver) da TabelaB. Se não houver, ele preenche com "NULL"
+EXEMPLO: SELECT * FROM TabelaA LEFT JOIN TabelaB ON TabelaA.nome = TabelaB.nome 
+
+
+RIGHT JOIN-> ele retorna todas as linhas da tabela B e também as linhas que não possuem correspondentes ou valores null, todas são retornadas na tabela de consulta
+Ele retorna um conjunto de dados da TabelaB e correspondentes(quando houver) da TabelaA. Se não houver, ele preenche com "NULL"
+EXEMPLO: SELECT * FROM TabelaB RIGHT JOIN TabelaA ON TabelaB.nome = TabelaA.nome 
+
+UNION-> ele combina dois ou mais resultados de um SELECT em um resultado apenas. ele remove os resultados duplicados.
+EXEMPLO: SELECT coluna1, coluna2 FROM tabela1 UNION  SELECT coluna1, coluna2 FROM tabela2
+obs: vc pode usar um "all" com o union tbm, assim você junta também os dados duplicados.
+
+BEGIN -> ele marca o inicio de um bloco de código
+END -> ele marca o fim de um bloco de código
+obs: Dentro de um BEGIN e END, pode-se conter varias instruções SQL.
+obs2: ajuda na organização do código e faz com que apenas os códigos dentro executem ou não. 
+
+COMMIT-> é uma instrução que confirma as alterações feitas através de uma instrução (bloco de códigos), tornando-a permanente no BD.
+
+ROLLBACK-> é uma instrução que reverte uma alteração de dados feitas no inicio de uma transação de instrução( rodar o bloco de notas). Ela só reverse dados que não sofreram a instrução de COMMIT
+
+É possível usar strings para fazer diversas operações
+
+INSERT -> permite que você adicione novos registros a tabela
+EXEMPLO: INSERT INTO tabela( nome, preco) VALUES ('Arroz', 21)
+
+UPDATE -> permite alterar um valor existente em uma tabela
+EXEMPLO: UPDATE funcionários SET salario = salario * 1.1 WHERE cargo = 'Gerente'
+
+DELETE -> permite deletar os dados 
+obs: ele permite deletar tanto um valor em especifico como as linhas
+EXEMPLO 1: DELETE FROM tabela WHERE coluna = 'valor'
+EXEMPLO 2: DELETE FROM tabela
+
+DROP TABLE -> ele remove uma tabela inteira, incluindo os dados nela
+EXEMPLO: DROP TABLE tabela
+
+CREATE TABLE-> ele permite criar uma nova tabela no BD
+EXEMPLO: CREATE TABLE person.person(PersonID int, FirstName varchar(255), LastName varchar(255), years int)
+
+ALTER TABLE-> ele permite realizar algumas ações nas colunas de uma tabela, como adicionar, deletar ou modificar colunas.
+EXEMPLO: ALTER TABLE person ADD Address varchar(255)
+EXEMPLO 2: ALTER TABLE person DROP COLUMN years
