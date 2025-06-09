@@ -1,0 +1,101 @@
+Conhecimentos sobre Postman
+
+o que é: o Postman é uma plataforma para testar, documentar, construir e colaborar  com APIs. Ele simplifica o processo de envio de solicitações HTTP, facilitando o trabalho com APIs e ajudando no desenvolvimento de aplicativos que utilizam serviços em APIs.
+
+onde "usar"/utilidade: ele é principalmente utilizado pelos desenvolvedores e testes para trabalhar com APIs, ele facilita os processos já comentados. As principais utilizações da ferramenta são nas etapas de "Desenvolvimento e testes de APIs",
+"Documentações", "Colaborações",
+"Testes Automatizados",
+"Monitoramento",
+"Integrações com outras ferramentas",
+etc...
+
+INTERFACE-> explicações breves sobre opções disponíveis na pagina central do app
+	NEW-> cria um novo ambiente, requisição ou coleção
+	IMPORT-> importa uma coleção ou ambiente
+	RUNNER-> executa os testes de automação
+	OPEN NEW-> permite criar uma nova guia
+	MY WORKSPACE-> um espaço de trabalho individual ou coletivo
+	INVITE-> permite convidar membros da equipe
+	HISTORY-> histórico de solicitações
+	COLLECTIONS-> criação de coleção. Cada coleção pode ter uma subpasta e varias solicitações
+	REQUEST TAB-> exibe o titulo da solicitação trabalhada
+	HTTP REQUEST-> exibe a lista de requisições
+	REQUEST URL-> "endpoint", indica o link para o qual a API se comunica
+	SAVE-> salva novas alterações
+	PARAMS-> local para passar os parametros de uma solicitação. valores chaves
+	AUTHORIZATION-> ele permite o acesso/autorização. Permite na forma de nome/senha , token etc
+	HEADERS-> define cabeçalho
+	BODY-> onde escreve a request
+	PRE-REQUEST SCRIPT-> scripts executados antes da solicitação. 
+	TESTS-> scrips executados durante a solicitação.
+
+REQUISIÇÕES-->
+	GET -> recupera dados, solicita dados de um servidor. Ele "lê" informações, é ideal para buscar recursos, como uma lista de usuários ou conteúdo de uma pagina.
+obs: as requisições GET não devem alterar dados.
+EXEMPLO: "GET" para https://api.exemplo.com/usuarios (para obter a lista de usuários)
+
+	POST -> cria um novo recurso, envia dados para um servidor para criar um novo recurso. Ele "escreve" ou "adiciona" informações, é usado para criar um novo usuário ou adicionar um novo item a um carrinho de compras.
+EXEMPLO: "POST" para https://api.exemplo.com/produtos { "nome": "Caneta Esferográfica", "preco": 2.50 }
+
+	PUT -> atualiza um recurso existente, substitui completamente um recurso existente no servidor ou cria um novo recurso caso ele não exista. Ele "atualiza tudo" ou "substitui"
+EXEMPLO: "PUT" para https://api.exemplo.com/usuarios/123 { "id": 123, "nome": "João Silva", "email": "joao.silva@novoemail.com" }
+
+	PATCH -> atualiza um recurso existente, aplica modificações parciais a um recurso existente. Ele atualiza só um "pedacinho" de informação, útil para mudar apenas um ou dois campos de um recurso. 
+obs: não precisa do envio de todo o body com a requisição
+EXEMPLO: "PATCH" para https://api.exemplo.com/produtos/456 { "preco": 3.00 }
+
+	DELETE ->exclui o recurso da solicitação, remove um recurso específico do servidor. ele "apaga" ou "exclui"
+EXEMPLO: "DELETE" para https://api.exemplo.com/pedidos/789
+
+COLEÇÃO-> é um recurso que permite organizar e gerenciar as requisições HTTP(citadas acimas) de forma eficiente. Comparável a uma pasta, onde se pode agrupar requisições relacionadas a uma API específica, um módulo de um sistema ou a um fluxo de trabalho.
+Usadas para "Organização", "Reutilização", "Documentação", "Teste" etc.
+
+VARIÁVEIS-> são como "espaços reservados" para valores que são usados repetidamente nas requisições. Ao invés de ficar informando a mesma "URL base" ou "Token" de autenticação nas requisições, é possível atribuir esses valores em uma variável e referencia-la.
+EXEMPLO: "Collection ou Environment Variables", crie uma variável chamada baseURL com o valor https://api.meusite.com/v1 , Em uma requisição GET {{baseURL}}/usuarios
+obs: as variaveis tornam as requisições mais simples, flexiveis e facéis de manter/reutilizar
+
+ENVIRONMENTS-> são um conjunto de variaveis que permitem altenar rapidamente entre diferentes configurações de APIs. Em casos de desenvolvimentos de APIs que possuem teste em homologação e testes, cada uma possuindo uma URLs base, credenciais ou chaves de API diferentes. Ao inves de ficar alterando as informações manualmente a cada requisição, você cria um ambiente para cada cenário.
+EXEMPLO: 
+Ambiente "Desenvolvimento": Variável baseURL com valor http://localhost:8080/api.
+Ambiente "Produção": Variável baseURL com valor https://api.meusite.com/v1.
+Requisição: Em todas as suas requisições, use {{baseURL}}/usuarios.
+
+
+PRÉ-REQUISIÇÕES-> são blocos de códigos JavaScrit que são executados antes da requisição HTTP. Eles preparam dados ou configuram a requisição de forma dinâmica. O código é escrito na aba "Pre-request Script" de uma requisião/ambiente.
+EXEMPLO:
+
+Na aba "Pre-request Script" de uma requisição:
+JavaScript
+// Simula a obtenção de um token (na prática, seria uma requisição real)
+	const novoToken = "token_gerado_" + Date.now();
+	pm.environment.set("token_acesso", novoToken); // Salva o token em uma variável de ambiente
+Na sua requisição, use o token gerado: GET {{baseURL}}/dados_protegidos com Authorization: Bearer {{token_acesso}}. Cada vez que a requisição for enviada, um novo token será gerado.
+
+HEADERS E PARÂMETROS-> são informações adicionais que são enviadas junto da requisição HTTP ou que são retornadas pelo servidor na reposta. Fundamental para comunicação entre postman e servidor.
+
+	HEADERS-> são metadados sobre requisição ou resposta. Incluem informações como o tipo de conteúdo sendo enviado(Content-Type), autorização(Authorization), agente do usuário(User-Agent), etc. Adiciona pares chave-valor
+	Query Parameters-> são pares chave-valor que são adicionados ao final da URL, após um ? . Usados principalmente em requisições GET para filtrar, ordenar ou paginar dados. Ao adicionar os pares chave-valor, o postman constrói a URL com os parâmetros de consulta
+	BODY-> é onde são enviados os dados principais da requisição métodos como POST, PUT PATCH. Escolhe o formato dos dados e inseres os valores.
+EXEMPLO DO PROCESSO->
+URL: https://api.exemplo.com/itens
+Headers:
+*Content-Type: application/json (diz ao servidor que você está enviando JSON)
+*Authorization: Bearer seu_token_aqui (para autenticação)
+Body (escolha "raw" e "JSON"):
+JSON
+
+{
+    "nome": "Caderno Universitário",
+    "quantidade": 5,
+    "preco": 19.99
+}
+Requisição GET para buscar itens filtrados:
+URL Base: https://api.exemplo.com/itens
+Params (na aba "Params"):
+*categoria: papelaria
+*limit: 10
+URL final gerada pelo Postman: https://api.exemplo.com/itens?categoria=papelaria&limit=10
+
+AUTENTICAÇÃO->
+
+COLLECTION RUNNER->
