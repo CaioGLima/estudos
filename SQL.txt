@@ -46,8 +46,17 @@ O '_' corresponde a um valor antes ou depois, indicando uma coordenada para o va
 	EX: "C_IO" essa vai procurar valores que se encaixam ali como "CaIO" 
 	/ou "_a%" aqui ele vai procurar um valor que a segunda letra seja A. 
 
-MIN, MAX, SUM, AVG-> eles possuem uma função de agregação ou combinação de dados em uma tabela em 1 resultado só
-EXEMPLO: SELECT prices, SUM (UnitPrice) FROM tabela
+SUM → soma todos os valores de uma coluna numérica.
+Exemplo: SELECT SUM(UnitPrice) FROM tabela; → retorna o total de todos os preços.
+
+AVG → calcula a média dos valores.
+Exemplo: SELECT AVG(UnitPrice) FROM tabela; → retorna o preço médio.
+
+MIN → retorna o menor valor encontrado.
+Exemplo: SELECT MIN(UnitPrice) FROM tabela; → mostra o preço mais baixo.
+
+MAX → retorna o maior valor encontrado.
+Exemplo: SELECT MAX(UnitPrice) FROM tabela; → mostra o preço mais alto.
 
 AS -> ele permite dar um apelido para uma tabela
 EXEMPLO: SELECT product.name.gigante AS "name" FROM tabela
