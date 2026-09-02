@@ -1,0 +1,94 @@
+--Criando tabelas Cliente e Pedidos
+CREATE TABLE Clientes(
+	id_cliente int primary key IDENTITY(1, 1),
+  	Name varchar (20)
+);
+
+Create TABLE Pedidos(
+	id_pedido int IDENTITY(1,1),
+  	id_cliente int,
+  	Produto varchar (50),
+  	Valor int ,
+  	FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente)
+);
+
+--Inserindo os valores de cada tabela
+Insert into Clientes(Name) VALUES ('Caio'), ('Joao') ,('Maria'),( 'Pedro') ;
+Insert into Pedidos(id_cliente, Produto, Valor) VALUES 
+(1, 'Teclado', 150), (1, 'Mouse', 80), (2, 'Monitor', 900), (3, 'Headset', 250);
+
+/*1️⃣Liste cada cliente e quantos pedidos ele possui.*/
+SELECT C.Name, 
+       COUNT(P.Produto) AS Qtde
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name;
+;
+
+/*2️⃣Liste cada cliente e quanto ele gastou no total.*/ 
+SELECT C.Name, 
+       SUM(P.Valor)
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name;
+
+/*3️⃣Liste cada cliente e o maior valor de pedido feito por ele.*/ 
+SELECT C.Name, 
+       MAX(P.Valor)
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name;
+
+/*4️⃣Liste cada cliente e o valor médio de seus pedidos.*/ 
+SELECT C.Name, 
+       AVG(P.Valor)
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name;
+
+/*5️⃣Liste cada produto e seu valor, mas mostre os resultados ordenados do maior valor para o menor.*/ 
+SELECT P.Produto, P.Valor
+From Pedidos AS P
+Order by P.Valor DESC;
+
+/*6️⃣Liste apenas os clientes que gastaram mais de R$200 no total.*/
+SELECT C.Name, SUM(P.Valor)
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+Group by C.Name
+HAVING SUM(P.Valor) > 200;
+
+/*7️⃣Liste os clientes que possuem mais de 1 pedido.*/
+SELECT C.Name, 
+       COUNT(P.Produto) 
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name
+HAVING COUNT(P.Produto) >1
+;
+
+/*8️⃣Liste os clientes ordenados pelo maior valor total gasto, do maior para o menor.*/
+SELECT C.Name, 
+       SUM(P.Valor)
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name
+Order by SUM(P.Valor) DESC;
+
+/*9️⃣Liste:o valor médio dos pedidos de cada cliente, mas mostre apenas clientes cuja média seja maior que R$200.*/ 
+SELECT C.Name, 
+       AVG(P.Valor) AS Valor_Med
+FROM Clientes AS C
+LEFT JOIN Pedidos AS P
+    ON C.id_cliente = P.id_cliente
+GROUP BY C.Name
+HAVING AVG(P.Valor) >200;
+
+/*Desafio do dia. Liste o cliente que possui o maior gasto total.*/
