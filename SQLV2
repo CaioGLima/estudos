@@ -1,0 +1,137 @@
+Conhecimentos sobre SQL
+1. Consultando e Filtrando Dados (DQL)
+SELECT e FROM
+Seleciona colunas específicas de uma tabela.
+SELECT info1, info2 FROM tabela;
+Obs: Use * para selecionar todas as colunas de uma tabela.
+
+DISTINCT
+Evita a duplicação de valores no retorno da consulta.
+SELECT DISTINCT info1 FROM tabela;
+
+WHERE
+Aplica condições para filtrar as linhas antes de qualquer agrupamento.
+SELECT * FROM tabela WHERE info1 = 'valor';
+Operadores comuns: =, >, <, >=, <=, <> (ou !=), AND, OR.
+Tratamento de Nulos: Para verificar valores nulos, utilize IS NULL ou IS NOT NULL (nunca = NULL).
+
+BETWEEN
+Filtra valores dentro de um intervalo inclusivo (números, datas ou textos).
+SELECT * FROM tabela WHERE listprice BETWEEN 1000 AND 1300;
+Obs: Use NOT BETWEEN para buscar valores fora do intervalo.
+
+IN
+Verifica se o valor de uma coluna atende a uma lista de opções.
+SELECT * FROM tabela WHERE id IN (1, 5, 8, 9);
+Obs: Pode ser combinado com NOT IN.
+
+LIKE
+Busca por padrões de texto usando caracteres curinga.
+% representa zero ou mais caracteres.
+_ representa exatamente um caractere.
+SELECT * FROM tabela WHERE name LIKE 'ca%'; (Começa com "ca")
+SELECT * FROM tabela WHERE name LIKE '%c%'; (Contém "c")
+SELECT * FROM tabela WHERE name LIKE '_a%'; (Segunda letra é "a")
+
+ORDER BY
+Organiza os resultados em ordem ascendente (ASC) ou decrescente (DESC).
+SELECT id FROM tabela ORDER BY id ASC;
+
+TOP / LIMIT
+Restringe a quantidade de linhas retornadas.
+SELECT TOP 10 * FROM tabela; (SQL Server)
+SELECT * FROM tabela LIMIT 10; (PostgreSQL, MySQL, SQLite)
+
+2. Funções de Agregação e Agrupamento
+Funções Agregadas
+SUM(): Soma os valores de uma coluna numérica.
+AVG(): Calcula a média dos valores.
+MIN(): Retorna o menor valor.
+MAX(): Retorna o maior valor.
+COUNT(): Conta a quantidade de registros ou valores não nulos.
+
+GROUP BY
+Divide os dados em grupos para realizar cálculos agregados por categoria.
+SELECT SpecialOfferID, SUM(UnitPrice) FROM tabela GROUP BY SpecialOfferID;
+
+HAVING
+Filtra os resultados após o agrupamento do GROUP BY.
+SELECT coluna1, SUM(coluna2) FROM tabela GROUP BY coluna1 HAVING SUM(coluna2) > 100;
+
+3. Apelidos e Junções (JOINs e UNION)
+AS (Alias)
+Atribui um apelido temporário a uma coluna ou tabela.
+SELECT produto.nome AS "Nome do Produto" FROM produtos;
+
+INNER JOIN
+Retorna apenas os registros que possuem correspondência em ambas as tabelas.
+SELECT * FROM TabelaA INNER JOIN TabelaB ON TabelaA.id = TabelaB.id;
+
+LEFT JOIN (ou LEFT OUTER JOIN)
+Retorna todos os registros da tabela da esquerda (A) e os correspondentes da tabela da direita (B). Se não houver correspondência, preenche com NULL.
+SELECT * FROM TabelaA LEFT JOIN TabelaB ON TabelaA.id = TabelaB.id;
+
+RIGHT JOIN
+Retorna todos os registros da tabela da direita (B) e os correspondentes da tabela da esquerda (A). Se não houver correspondência, preenche com NULL.
+SELECT * FROM TabelaB RIGHT JOIN TabelaA ON TabelaB.id = TabelaA.id;
+
+FULL OUTER JOIN
+Retorna todos os registros de ambas as tabelas, preenchendo com NULL onde não houver correspondência.
+SELECT * FROM TabelaA FULL OUTER JOIN TabelaB ON TabelaA.id = TabelaB.id;
+
+UNION / UNION ALL
+Combina os resultados de dois ou mais comandos SELECT.
+
+UNION: Remove linhas duplicadas.
+
+UNION ALL: Mantém todas as linhas, incluindo duplicadas.
+
+SELECT coluna1 FROM tabela1 UNION SELECT coluna1 FROM tabela2;
+
+4. Manipulação de Dados (DML)
+INSERT
+Insere novos registros em uma tabela.
+INSERT INTO tabela (nome, preco) VALUES ('Arroz', 21.50);
+
+UPDATE
+Altera registros existentes. Atenção: Sempre utilize a cláusula WHERE para evitar atualizar a tabela inteira.
+UPDATE funcionarios SET salario = salario * 1.1 WHERE cargo = 'Gerente';
+
+DELETE
+Remove linhas de uma tabela.
+
+DELETE FROM tabela WHERE coluna = 'valor';
+
+Obs: Para apagar apenas o valor de um campo sem deletar a linha, utilize UPDATE tabela SET coluna = NULL WHERE ....
+
+5. Definição de Estruturas (DDL)
+CREATE TABLE
+Cria uma nova tabela no banco de dados.
+CREATE TABLE pessoa (PersonID INT, FirstName VARCHAR(255), LastName VARCHAR(255), Idade INT);
+
+ALTER TABLE
+Adiciona, remove ou modifica colunas em uma tabela existente.
+ALTER TABLE pessoa ADD Address VARCHAR(255);
+ALTER TABLE pessoa DROP COLUMN Idade;
+
+DROP TABLE
+Exclui uma tabela permanentemente, junto com todos os seus dados e estrutura.
+DROP TABLE tabela;
+
+6. Transações e Controle
+BEGIN, COMMIT e ROLLBACK
+BEGIN TRANSACTION: Inicia um bloco de transação.
+COMMIT: Confirma e salva permanentemente as alterações no banco de dados.
+ROLLBACK: Desfaz as alterações realizadas na transação atual (desde que o COMMIT ainda não tenha sido executado).
+
+7. Estrutura de Execução da Consulta SQL
+Select
+From
+Where
+Group by
+Having
+Order by
+Limit/top
+
+
+
