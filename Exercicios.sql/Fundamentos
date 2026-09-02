@@ -1,0 +1,67 @@
+--Criando tabelas Cliente e Pedidos
+CREATE TABLE Clientes(
+	id_cliente int primary key IDENTITY(1, 1),
+  	Name varchar (20)
+);
+
+Create TABLE Pedidos(
+	id_pedido int IDENTITY(1,1),
+  	id_cliente int,
+  	Produto varchar (50),
+  	Valor int ,
+  	FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente)
+);
+
+--Inserindo os valores de cada tabela
+Insert into Clientes(Name) VALUES ('Caio'), ('Joao') ,('Maria'),( 'Pedro') ;
+Insert into Pedidos(id_cliente, Produto, Valor) VALUES 
+(1, 'Teclado', 150), (1, 'Mouse', 80), (2, 'Monitor', 900), (3, 'Headset', 250);
+
+--Conferindo se cada tabela recebeu realmente o seu valor
+SELECT * From Clientes;
+SELECT * From Pedidos;
+
+/*Exercício 1
+Liste:nome do cliente + produto comprado.*/
+SELECT C.Name,P.Produto From Pedidos AS P
+Inner JOIN Clientes AS C
+on p.id_cliente = c.id_cliente
+
+/*Exercício 2
+Liste:nome do cliente + valor do pedido.*/
+SELECT C.Name, P.Valor From Pedidos AS P 
+Inner Join Clientes AS C
+on P.id_cliente = C.id_cliente
+
+/*Exercício 3
+Liste todos os clientes, incluindo quem nunca fez pedido.
+O resultado deve incluir:Pedro | NULL */ 
+SELECT * From Pedidos AS P 
+Right Join Clientes AS C
+on P.id_cliente = C.id_cliente
+
+/*Exercício 4 
+Liste:cliente + produto + valor
+ordenando pelo maior valor.*/ 
+SELECT C.Name,P.Produto, P.Valor From Pedidos AS P 
+Inner Join Clientes AS C
+on P.id_cliente = C.id_cliente
+Order by P.Valor DESC
+
+/*Exercício 5 
+Liste somente os pedidos de clientes cujo nome seja Caio.*/
+SELECT C.Name,P.Produto, P.Valor From Pedidos AS P 
+Inner Join Clientes AS C
+on P.id_cliente = C.id_cliente
+Where C.Name = 'Caio'
+
+/*Exercício 6 
+Liste:nome do cliente + quantidade de pedidos que ele possui.*/
+/*Exercício 7 
+Liste:nome do cliente + valor total gasto.*/ 
+/*Exercício 8 
+Liste:o cliente que mais gastou.*/ 
+/*Exercício 9 
+Liste:todos os clientes e a quantidade de pedidos, mas mostre somente os clientes que possuem pelo menos 1 pedido.*/ 
+/*Exercício 10 
+Liste:o nome do cliente, produto e valor de todos os pedidos cujo valor seja maior que a média de todos os pedidos.*/
